@@ -502,10 +502,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 return;
             }
 
-            // const productId = document.querySelector(
-            //     ".custom-bouquet-configurator"
-            // ).dataset.productId;
-
             const addToCartBtn = document.getElementById("add-to-cart-custom");
 
             if (!addToCartBtn) {
@@ -647,28 +643,6 @@ document.addEventListener("DOMContentLoaded", function () {
                         this.selections.style
                     );
                 });
-
-            // Simulate adding to cart feedback
-            // const addToCartBtn = document.getElementById("add-to-cart-custom");
-            // const originalText = addToCartBtn.textContent;
-
-            // addToCartBtn.textContent = "Adding to Cart...";
-            // addToCartBtn.disabled = true;
-
-            // setTimeout(() => {
-            //     addToCartBtn.textContent = "Added to Cart!";
-            //     addToCartBtn.style.background = "#28a745";
-
-            //     setTimeout(() => {
-            //         addToCartBtn.textContent = originalText;
-            //         addToCartBtn.style.background = "";
-            //         addToCartBtn.disabled = !(
-            //             this.selections.size &&
-            //             this.selections.palette &&
-            //             this.selections.style
-            //         );
-            //     }, 2000);
-            // }, 1000);
         },
     };
 
