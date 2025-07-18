@@ -1,0 +1,136 @@
+<h2 class="featured-blog-heading">{{ section.settings.title | escape }}</h2>
+
+{%- assign blog = blogs[section.settings.blog] -%}
+
+{%- if blog.articles_count > 0 -%}
+  <ul class="featured-blogs">
+
+    {%- for article in blog.articles limit: section.settings.post_limit -%}
+      <li class="featured-blog-single">
+        <a href="{{ article.url }}">
+          {%- if article.image -%}
+            <div class="featured-blog-image">
+                {{ article.image | image_url: width: 600 | image_tag: widths: "300, 600, 900", alt: article.title }}
+            </div>
+          {%- endif -%}
+          <h3>{{ article.title }}</h3>
+        </a>
+
+        {%- if section.settings.blog_show_author -%}
+          <span>
+            By {{ article.author }}
+          </span>
+        {%- endif -%}
+
+        {%- if section.settings.blog_show_date -%}
+          <span>
+            {{ article.published_at | date: "%B %d, %Y" }}
+          </span>
+        {%- endif -%}
+
+        {%- if article.excerpt.size > 0 -%}
+          <p class="blog-excerpt">
+            {{ article.excerpt }}
+          </p>
+        {%- else -%}
+          <p class="blog-excerpt">
+            {{ article.content | strip_html | truncate: 150 }}
+          </p>
+        {%- endif -%}
+
+        {%- if article.tags.size > 0 -%}
+          <ul aria-label="{{ 'blogs.article.tags' }}">
+          {%- for tag in article.tags -%}
+            <li>
+              <a href="{{ blog.url }}/tagged/{{ tag | handle }}">{{ tag }}</a>
+            </li>
+          {%- endfor -%}
+          </ul>
+        {%- endif -%}
+
+        <ul class="btn-read-more">
+          <li>
+            <a href="{{ article.url }}" aria-label="Read more: {{ article.title }}">
+              Read more
+            </a>
+          </li>
+
+          {%- if blog.comments_enabled? and article.comments_count > 0 -%}
+            <li>
+              <a href="{{ article.url }}#comments">
+                {{ article.comments_count }} comments
+              </a>
+            </li>
+          {%- endif -%}
+
+        </ul>
+      </li>
+    {%- endfor -%}
+
+  </ul>
+{%- endif -%}
+
+{%- if section.settings.show_view_all -%}
+  <a href="{{ blog.url }}"
+    class="btn btn-view-all-posts"
+    aria-label="{{ 'blogs.article.view_all_blogs' }}">
+    {{ 'View All Posts' }}
+  </a>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Blog posts",
+  "class": "index-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "Blog posts"
+    },
+    {
+      "id": "blog",
+      "type": "blog",
+      "label": "Blog"
+    },
+    {
+      "type": "range",
+      "id": "post_limit",
+      "label": "Posts",
+      "min": 2,
+      "max": 12,
+      "step": 2,
+      "default": 2
+    },
+    {
+      "type": "checkbox",
+      "id": "blog_show_author",
+      "label": "Show author",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "blog_show_date",
+      "label": "Show date",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_view_all",
+      "label": "Show 'View all' button",
+      "default": false
+    }
+  ],
+  "presets": [
+    {
+      "name": "Blog posts",
+      "category": "Blog",
+      "settings": {
+        "blog": "News",
+        "post_limit": 2
+      }
+    }
+  ]
+}
+{% endschema %}

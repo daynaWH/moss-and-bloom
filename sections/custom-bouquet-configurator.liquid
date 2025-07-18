@@ -1,0 +1,764 @@
+<script type="application/json" id="product-variants-data">
+    {{ product.variants | json }}
+</script>
+
+<script
+    src="{{ 'custom-bouquet.js' | asset_url }}"
+    type="module"
+></script>
+
+<!-- Custom Bouquet Configurator Section -->
+<div class="page-width">
+    <div class="custom-bouquet-configurator" data-product-id="{{ product.id }}">
+
+        <!-- Product Info Header -->
+        <div class="product-header">
+            <h1 class="product-title">{{ product.title }}</h1>
+            <div class="product-description">{{ product.description }}</div>
+        </div>
+
+        <div class="configurator-wrapper">
+
+            <!-- Left Side: Configuration Options -->
+            <div class="config-panel">
+
+                <!-- Size Selection -->
+                <div class="config-section" data-step="size">
+                    <h3 class="config-title">Choose Your Size</h3>
+                    <div class="size-options">
+                    <button class="config-option" data-size="small" data-price="30" data-multiplier="1">
+                        <span class="option-name">Small</span>
+                        {% comment %} <span class="option-price">$30</span> {% endcomment %}
+                        <span class="option-description">Perfect for desks or small spaces</span>
+                    </button>
+                    <button class="config-option" data-size="medium" data-price="45" data-multiplier="1.5">
+                        <span class="option-name">Medium</span>
+                        {% comment %} <span class="option-price">$45</span> {% endcomment %}
+                        <span class="option-description">Great for dining tables</span>
+                    </button>
+                    <button class="config-option" data-size="large" data-price="60" data-multiplier="2">
+                        <span class="option-name">Large</span>
+                        {% comment %} <span class="option-price">$60</span> {% endcomment %}
+                        <span class="option-description">Statement piece for any room</span>
+                    </button>
+                    </div>
+                </div>
+
+                <!-- Color Palette Selection -->
+                <div class="config-section" data-step="palette">
+                    <h3 class="config-title">Select Color Palette</h3>
+                    <div class="palette-options">
+                        <button class="config-option palette-option" data-palette="pastel">
+                            <div class="palette-preview">
+                            <span class="color-dot" style="background: #FFB6C1;"></span>
+                            <span class="color-dot" style="background: #FFDAB9;"></span>
+                            <span class="color-dot" style="background: #E6E6FA;"></span>
+                            </div>
+                            <span class="option-name">Pastel Dreams</span>
+                            <span class="option-description">Soft pinks, peach, lavender</span>
+                        </button>
+                        <button class="config-option palette-option" data-palette="bright">
+                            <div class="palette-preview">
+                            <span class="color-dot" style="background: #FFD700;"></span>
+                            <span class="color-dot" style="background: #FF6347;"></span>
+                            <span class="color-dot" style="background: #FF69B4;"></span>
+                            </div>
+                            <span class="option-name">Bright & Bold</span>
+                            <span class="option-description">Sunflowers, roses, lilies</span>
+                        </button>
+                        <button class="config-option palette-option" data-palette="white-green">
+                            <div class="palette-preview">
+                            <span class="color-dot" style="background: #FFFFFF; border: 1px solid #ddd;"></span>
+                            <span class="color-dot" style="background: #90EE90;"></span>
+                            <span class="color-dot" style="background: #228B22;"></span>
+                            </div>
+                            <span class="option-name">White & Green</span>
+                            <span class="option-description">Clean, minimalist elegance</span>
+                        </button>
+                        <button class="config-option palette-option" data-palette="seasonal">
+                            <div class="palette-preview">
+                            <span class="color-dot" style="background: #FF8C00;"></span>
+                            <span class="color-dot" style="background: #DC143C;"></span>
+                            <span class="color-dot" style="background: #4B0082;"></span>
+                            </div>
+                            <span class="option-name">Seasonal Mix</span>
+                            <span class="option-description">Changes with the seasons</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Style Selection -->
+                <div class="config-section" data-step="style">
+                    <h3 class="config-title">Choose Your Style</h3>
+                    <div class="style-options">
+                        <button class="config-option style-option" data-style="classic" data-price-add="0">
+                            <span class="option-name">Classic Round</span>
+                            <span class="option-description">Traditional, timeless arrangement</span>
+                        </button>
+                        <button class="config-option style-option" data-style="wild">
+                            <span class="option-name">Wild & Garden</span>
+                            <span class="option-description">Natural, organic feel</span>
+                        </button>
+                        <button class="config-option style-option" data-style="elegant">
+                            <span class="option-name">Elegant Tall Vase</span>
+                            <span class="option-description">Sophisticated height</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Occasion Selection (Optional) -->
+                <div class="config-section" data-step="occasion">
+                    <h3 class="config-title">Occasion (Optional)</h3>
+                    <div class="occasion-options">
+                        <button class="config-option occasion-option" data-occasion="birthday">Birthday</button>
+                        <button class="config-option occasion-option" data-occasion="anniversary">Anniversary</button>
+                        <button class="config-option occasion-option" data-occasion="sympathy">Sympathy</button>
+                        <button class="config-option occasion-option" data-occasion="wedding">Wedding</button>
+                        <button class="config-option occasion-option" data-occasion="just-because">Just Because</button>
+                    </div>
+                </div>
+            </div>
+            <!-- End of Left Side: Configuration Options -->
+
+            <!-- Right Side: Preview and Cart -->
+            <div class="preview-panel">
+                <!-- Preview Content Wrapper -->
+                <div class="preview-content">
+                    <!-- Preview Image Section -->
+                    <div class="preview-image-container">
+                        <div id="variant-images" style="display: none;">
+                            {% for variant in product.variants %}
+                            {% if variant.featured_media %}
+                                <div data-size="{{ variant.option1 | downcase }}" 
+                                    data-image-url="{{ variant.featured_media | image_url: width: 600 }}"
+                                    data-image-alt="{{ variant.featured_media.alt | default: variant.title }}"
+                                    data-variant-id="{{ variant.id }}">
+                                </div>
+                            {% endif %}
+                            {% endfor %}
+                        </div>
+
+                        {% comment %} Default preview image (product featured image or first available) {% endcomment %}
+                        {% if product.featured_media %}
+                            {% assign preview_image = product.featured_media %}
+                        {% elsif product.media.first %}
+                            {% assign preview_image = product.media.first %}
+                        {% else %}
+                            {% assign preview_image = null %}
+                        {% endif %}
+
+                        {% if preview_image %}
+                            <img id="preview-image" 
+                                src="{{ preview_image | image_url: width: 600 }}" 
+                                alt="{{ preview_image.alt | default: product.title }}"
+                                width="600"
+                                height="400"
+                                loading="lazy"
+                                class="zoomable-image"
+                                data-large-src="{{ preview_image | image_url: width: 1200 }}">
+                            <div class="zoom-hint">
+                                <svg width="20" height="20" viewBox="0 0 24 24"     fill="none" stroke="currentColor" stroke-width="2">
+                                    <circle cx="11" cy="11" r="8"></circle>
+                                    <path d="M21 21 L16.65 16.65"></path>
+                                    <path d="m9 9 2 2 4-4"></path>
+                                </svg>
+                                <span>Click to zoom</span>
+                            </div>
+                        {% else %}
+                            {% comment %} Fallback if no product images exist {% endcomment %}
+                            <div class="no-image-placeholder" id="no-image-placeholder">
+                                <svg width="600" height="400" viewBox="0 0 600 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <rect width="600" height="400" fill="#f8f9fa"/>
+                                    <circle cx="250" cy="150" r="20" fill="#e9ecef"/>
+                                    <circle cx="300" cy="120" r="25" fill="#e9ecef"/>
+                                    <circle cx="350" cy="160" r="22" fill="#e9ecef"/>
+                                    <circle cx="320" cy="200" r="18" fill="#e9ecef"/>
+                                    <circle cx="280" cy="180" r="20" fill="#e9ecef"/>
+                                    <text x="300" y="280" text-anchor="middle" fill="#6c757d" font-family="Arial, sans-serif" font-size="18">Custom Bouquet Preview</text>
+                                </svg>
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Image Lightbox Modal -->
+                    <div id="image-lightbox" class="lightbox-overlay">
+                        <div class="lightbox-container">
+                            <button class="lightbox-close" id="lightbox-close">&times;</button>
+                            <img id="lightbox-image" alt="" class="lightbox-image" width="600" height="400">
+                            <div class="lightbox-info">
+                                <h4 id="lightbox-title">Bouquet Preview</h4>
+                                <p id="lightbox-description">Scroll to zoom</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Image Gallery (if product has multiple images) -->
+                    {% if product.media.size > 1 %}
+                    <div class="preview-gallery">
+                        <div class="gallery-thumbnails">
+                        {% for media in product.media limit: 4 %}
+                            {% if media.media_type == 'image' %}
+                            <button class="gallery-thumb" data-image-url="{{ media | image_url: width: 600 }}">
+                                <img src="{{ media | image_url: width: 100 }}" 
+                                    alt="{{ media.alt | default: product.title }}"
+                                    width="100"
+                                    height="100"
+                                    loading="lazy">
+                            </button>
+                            {% endif %}
+                        {% endfor %}
+                        </div>
+                    </div>
+                    {% endif %}
+                    <!-- End of Preview Image Section -->
+
+                </div>
+                <!-- End of Preview Content Wrapper -->
+            </div>
+
+            <!-- Config Summary Section -->
+            <div class="summary-wrapper">
+                <div class="summary-card">
+                    <div class="summary-header">
+                        <h4 class="summary-title-main">Your Custom Bouquet</h4>
+                        <div class="price-badge" id="final-price">$0</div>
+                    </div>
+                    <div class="summary-grid">
+                        <div class="summary-item">
+                            <span class="summary-label">Size</span>
+                            <span class="summary-value not-selected" id="selected-size">Not selected</span>
+                        </div>
+                        <div class="summary-item">
+                            <span class="summary-label">Palette</span>
+                            <span class="summary-value not-selected" id="selected-palette">Not selected</span>
+                        </div>
+                        <div class="summary-item">
+                            <span class="summary-label">Style</span>
+                            <span class="summary-value not-selected" id="selected-style">Not selected</span>
+                        </div>
+                        <div class="summary-item">
+                            <span class="summary-label">Occasion</span>
+                            <span class="summary-value not-selected" id="selected-occasion">None</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="add-to-cart-section">
+                    <button id="add-to-cart-custom" class="btn btn-primary" disabled>
+                        Add Custom Bouquet to Cart
+                    </button>
+                    <p class="cart-note">Complete your selections to add to cart</p>
+                </div>
+            </div>
+            <!-- End of Fixed Summary Section -->
+            <!-- End of Right Side: Preview and Cart -->
+        </div>
+    </div>
+</div>
+
+{% stylesheet %}
+.custom-bouquet-configurator {
+    max-width: 75rem;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+}
+
+.product-header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.product-title {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+.configurator-wrapper {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    grid-template-rows: 1fr 1fr;
+    column-gap: 3rem;
+    align-items: start;
+}
+
+.config-panel {
+    grid-row: 1 / 3;
+}
+
+/* Fixed summary panel */
+/* .preview-panel { */
+    /* position: sticky; */
+    /* top: 2rem; */
+    /* display: flex;
+    flex-direction: column; */
+    /* height: calc(100vh - 4rem);
+    max-height: 50rem; */
+/* } */
+
+/* Scrollable preview content */
+.preview-content {
+    flex: 1;
+    /* overflow-y: auto; */
+    padding-right: 1rem;
+    /* margin-bottom: 1rem; */
+}
+
+/* Fixed bottom summary */
+/* .summary-wrapper {
+    position: sticky;
+    bottom: 0;
+    background: #ffffff;
+    border-top: 2px solid #e0e0e0;
+    padding: 1.5rem 0 0 0;
+    margin-top: auto;
+    box-shadow: 0 -0.25rem 0.4rem #0000000d;
+    grid-column: 1 / 2;
+    grid-row: 1 / 3;
+} */
+
+/* Summary card */
+.summary-card {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    border: 1px solid #dee2e6;
+    border-radius: 0.75rem;
+    padding: 1.25rem;
+    margin-bottom: 1rem;
+    box-shadow: 0 0.1rem 0.25rem #0000000d;
+}
+
+.summary-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.summary-title-main {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #333;
+    margin: 0;
+}
+
+.price-badge {
+    background: #303e2f;
+    color: #ffffff;
+    padding: 0.5rem 1rem;
+    border-radius: 1.5rem;
+    font-weight: 600;
+    font-size: 1.1rem;
+}
+
+.summary-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+}
+
+.summary-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.summary-label {
+    font-size: 0.8rem;
+    color: #666;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.summary-value {
+    font-weight: 600;
+    color: #333;
+    font-size: 0.9rem;
+}
+
+.summary-value.not-selected {
+    color: #999;
+    font-style: italic;
+    font-weight: 400;
+}
+
+/* Config sections */
+.config-section {
+    margin-bottom: 2.5rem;
+}
+
+.config-title {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    color: #333;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.config-title::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(to right, #dee2e6, transparent);
+}
+
+.size-options {
+    display: flex;
+    gap: 1rem;
+}
+
+.config-option {
+    display: block;
+    width: 100%;
+    padding: 0.6rem;
+    margin-bottom: 0.5rem;
+    border: 2px solid #e0e0e0;
+    background: #ffffff;
+    text-align: left;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-radius: 0.5rem;
+    position: relative;
+}
+
+.config-option:hover {
+    border-color: #bdc69f;
+    background: #f8f9fa;
+    transform: translateY(-1px);
+    box-shadow: 0 0.1rem 0.5rem #303e2f26;
+}
+
+.config-option.selected {
+    border-color: #303e2f;
+    background: #e3ecc4;
+    box-shadow: 0 0 0 0.2rem #303e2f1a;
+}
+
+.config-option.selected::before {
+    content: '✓';
+    position: absolute;
+    top: 0.5rem;
+    right: 0.75rem;
+    color: #303e2f;
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+.option-name {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+}
+
+.option-description {
+    display: block;
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.palette-preview {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.color-dot {
+    width: 1.25rem;
+    height: 1.25rem;
+    border-radius: 50%;
+    display: inline-block;
+    border: 2px solid #ffffffcc;
+    box-shadow: 0 1px 3px #00000033;
+}
+
+/* Preview image styles */
+.preview-image-container {
+    position: relative;
+    margin-bottom: 1rem;
+}
+
+.zoomable-image {
+    cursor: zoom-in;
+    transition: transform 0.2s ease;
+    width: 100%;
+    height: 18rem;
+    object-fit: cover;
+    border-radius: 0.5rem;
+}
+
+.zoomable-image:hover {
+    transform: scale(1.02);
+}
+
+.zoom-hint {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    background: #000000b3;
+    color: #ffffff;
+    padding: 0.5rem 0.75rem;
+    border-radius: 1.25rem;
+    font-size: 0.8rem;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+}
+
+.preview-image-container:hover .zoom-hint {
+    opacity: 1;
+}
+
+/* Lightbox Styles */
+.lightbox-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #000000e6;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    backdrop-filter: blur(5px);
+}
+
+.lightbox-overlay.active {
+    display: flex;
+}
+
+.lightbox-container {
+    position: relative;
+    max-width: 90vw;
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.lightbox-close {
+    position: absolute;
+    top: -3rem;
+    right: 0;
+    background: none;
+    border: none;
+    color: #ffffff;
+    font-size: 3rem;
+    cursor: pointer;
+    z-index: 1001;
+    width: 3rem;
+    height: 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: background-color 0.3s ease;
+}
+
+.lightbox-close:hover {
+    background: #ffffff33;
+}
+
+.lightbox-image {
+    max-width: 100%;
+    max-height: 80vh;
+    object-fit: contain;
+    border-radius: 0.5rem;
+    cursor: grab;
+    transition: transform 0.3s ease;
+    user-select: none;
+}
+
+.lightbox-image:active {
+    cursor: grabbing;
+}
+
+.lightbox-image.zoomed {
+    cursor: move;
+}
+
+.lightbox-info {
+    margin-top: 1rem;
+    text-align: center;
+    color: #ffffff;
+}
+
+.lightbox-info h4 {
+    margin: 0 0 0.5rem 0;
+    font-size: 1.2rem;
+}
+
+.lightbox-info p {
+    margin: 0;
+    opacity: 0.8;
+    font-size: 0.9rem;
+}
+
+#preview-image, .no-image-placeholder {
+    width: 100%;
+    height: 25rem;
+    object-fit: cover;
+    margin-top: 1rem;
+    border-radius: 0.5rem;
+    transition: opacity 0.3s ease;
+}
+
+.no-image-placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f8f9fa;
+    border: 2px dashed #dee2e6;
+}
+
+.preview-gallery {
+    margin-bottom: 1.5rem;
+}
+
+.preview-gallery h5 {
+    margin-bottom: 0.5rem;
+    font-size: 1rem;
+    color: #666;
+}
+
+.gallery-thumbnails {
+    display: flex;
+    gap: 0.5rem;
+    overflow-x: auto;
+    padding: 0.5rem 0;
+    /* max-height: 7rem; */
+}
+
+.gallery-thumb {
+    border: 2px solid #e0e0e0;
+    border-radius: 0.25rem;
+    background: none;
+    cursor: pointer;
+    transition: border-color 0.3s ease;
+    max-width: 5rem;
+    max-height: 5rem;
+}
+
+.gallery-thumb:hover {
+    border-color: #303e2f;
+}
+
+.gallery-thumb img {
+    display: block;
+    border-radius: 2px;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Button styles */
+.btn {
+    padding: 1rem 2rem;
+    border: none;
+    border-radius: 0.5rem;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: 100%;
+    font-weight: 600;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #576d55 0%, #2e3b2d 100%);
+    color: #ffffff;
+    box-shadow: 0 4px 15px #303e2f4d;
+}
+
+.btn-primary:hover:not(:disabled) {
+    background: linear-gradient(135deg, #2e3b2d 0%,rgb(23, 29, 22) 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px #303e2f66;
+}
+
+.btn:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+.cart-note {
+    text-align: center;
+    color: #666;
+    font-size: 0.9rem;
+    margin-top: 0.5rem;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 48em) {
+    .configurator-wrapper {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto;
+        gap: 2rem;
+    }
+
+    .config-panel {
+        grid-row: auto;
+    }
+
+    .preview-panel {
+        position: static;
+        height: auto;
+        max-height: none;
+        grid-row: 1;
+    }
+
+    .preview-content {
+        overflow-y: visible;
+    }
+
+    .size-options {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+}
+
+/* Custom scrollbar for preview content */
+.preview-content::-webkit-scrollbar {
+    width: 6px;
+}
+
+.preview-content::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 3px;
+}
+
+.preview-content::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 3px;
+}
+
+.preview-content::-webkit-scrollbar-thumb:hover {
+    background: #a8a8a8;
+}
+{% endstylesheet %}
+
+{% schema %}
+{
+    "name": "Custom Bouquet Config",
+    "settings": [
+        {
+            "type": "text",
+            "id": "section_title",
+            "label": "Section Title",
+            "default": "Design Your Custom Bouquet"
+        }
+    ],
+    "presets": [
+        {
+            "name": "Custom Bouquet Configurator"
+        }
+    ]
+}
+{% endschema %}

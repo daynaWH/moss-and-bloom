@@ -1,0 +1,30 @@
+# Ignore Shopify store-specific config
+config/settings_data.json
+
+# Ignore Shopify CLI environment files (if present)
+.env
+.env.*
+
+# Ignore node/npm-related files if you used a build tool
+node_modules/
+dist/
+package-lock.json
+yarn.lock
+
+# Ignore system/OS files
+.DS_Store
+Thumbs.db
+
+# Ignore optional logs or backups
+*.log
+*.tmp
+*.bak
+
+# Ignore VS Code settings or other IDE-specific files
+.vscode/
+.idea/
+*.code-workspace
+
+# Ignore theme-check cache (if used)
+.theme-check.yml
+tmp/
