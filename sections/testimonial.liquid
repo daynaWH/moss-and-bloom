@@ -1,0 +1,42 @@
+{{ 'testimonial.css' | asset_url | stylesheet_tag }}
+
+<h2>{{ section.settings.testimonial-heading }}</h2>
+<blockquote>
+    <p>{{ section.settings.testimonial-quote }}</p>
+    <cite>{{ section.settings.testimonial-name }}</cite>
+</blockquote>
+
+
+{% schema %}
+{
+    "name": "Testimonial",
+    "tag": "section",
+    "class": "testimonial",
+    "settings": [
+    {
+        "id": "testimonial-heading",
+        "type": "text",
+        "label": "Heading",
+        "default": "Testimonial"
+    },
+    {
+        "id": "testimonial-quote",
+        "type": "textarea",
+        "label": "Quote",
+        "default": "Reviews and testimonials from customers"
+    },
+    {
+        "id": "testimonial-name",
+        "type": "text",
+        "label": "Customer Name",
+        "default": "Customer's Name"
+    }
+    ],
+    "presets": [
+    {
+        "name": "Testimonial",
+        "category": "Text"
+    }
+    ]
+}
+{% endschema %}

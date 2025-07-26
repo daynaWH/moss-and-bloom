@@ -1064,6 +1064,15 @@
         "padding-block-end": 48
       }
     },
+    "testimonial_e4nEgg": {
+      "type": "testimonial",
+      "name": "Testimonial",
+      "settings": {
+        "testimonial-heading": "Testimonial From our Client",
+        "testimonial-quote": "I couldn’t be happier with my experience! The bouquet arrived right on time and looked even more beautiful than the photos. The flowers were fresh, vibrant, and smelled amazing. It made my sister’s birthday so special. I’ll definitely be ordering from Moss & Bloom again!",
+        "testimonial-name": "Emily Carter"
+      }
+    },
     "divider_ygcdwb": {
       "type": "divider",
       "name": "t:names.divider_section",
@@ -1333,45 +1342,6 @@
         "padding-block-start": 48,
         "padding-block-end": 48
       }
-    },
-    "1752823511ea55c86f": {
-      "type": "_blocks",
-      "blocks": {
-        "shop_shop_login_button_app_block_ntBcep": {
-          "type": "shopify://apps/shop/blocks/shop-login-button-app-block/7cab7c4a-1dfc-4b7e-8e53-31f104f2fa4e",
-          "settings": {}
-        }
-      },
-      "block_order": [
-        "shop_shop_login_button_app_block_ntBcep"
-      ],
-      "settings": {
-        "content_direction": "column",
-        "vertical_on_mobile": true,
-        "horizontal_alignment": "flex-start",
-        "vertical_alignment": "center",
-        "align_baseline": false,
-        "horizontal_alignment_flex_direction_column": "flex-start",
-        "vertical_alignment_flex_direction_column": "center",
-        "gap": 12,
-        "section_width": "page-width",
-        "section_height": "",
-        "section_height_custom": 50,
-        "color_scheme": "",
-        "background_media": "none",
-        "video_position": "cover",
-        "background_image_position": "cover",
-        "border": "none",
-        "border_width": 1,
-        "border_opacity": 100,
-        "border_radius": 0,
-        "toggle_overlay": false,
-        "overlay_color": "#00000026",
-        "overlay_style": "solid",
-        "gradient_direction": "to top",
-        "padding-block-start": 0,
-        "padding-block-end": 0
-      }
     }
   },
   "order": [
@@ -1379,9 +1349,9 @@
     "product_list_qU3bEB",
     "section_qEMQEM",
     "section_tdDPAK",
+    "testimonial_e4nEgg",
     "divider_ygcdwb",
     "featured_blog_RXDAE7",
-    "section_cTJU6P",
-    "1752823511ea55c86f"
+    "section_cTJU6P"
   ]
 }

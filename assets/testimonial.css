@@ -1,0 +1,51 @@
+.testimonial {
+    text-align: center;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin: 2rem auto;
+    max-width: 50rem;
+}
+
+.testimonial h2 {
+    font-size: 1.5rem;
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+}
+
+.testimonial p {
+    margin: 0 auto;
+    max-width: 37.5rem;
+}
+
+.testimonial p::before {
+    content: "“";
+    left: -0.5rem;
+    margin-right: -0.1rem;
+}
+
+.testimonial p::after {
+    content: "”";
+    right: -0.5rem;
+    margin-left: -0.1rem;
+}
+
+.testimonial p::before,
+.testimonial p::after {
+    position: relative;
+    top: 0.1rem;
+    color: var(--primary-color);
+    font-size: 1rem;
+}
+
+.testimonial p span {
+    font-weight: bold;
+    color: var(--primary-color);
+}
+
+.testimonial cite::before {
+    content: "— ";
+    margin-right: 0.5rem;
+    font-weight: normal;
+    color: var(--secondary-color);
+}
